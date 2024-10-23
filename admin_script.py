@@ -1,27 +1,37 @@
+import os
+import subrocess
 import argparse
 
-admin_users = ["admin", "root"];
+def main()
+	parser = agparse.ArgumentParser(description="Admin script")
+	parser.add_argument('--user', help = 'User to manage')
+	parser.add_argument('--action', help = 'User to manage')
+	args = parser.parse_args()
 
-def is_admin(username)
-	return username in admin_users;
+	if args.action == 'add':
+		add_user(args.user)
+	if args.action == 'delete':
+		delete_user(args.user)
+	if args.action == 'modify':
+		modify_user(args.user)
 
 def add_user(username)
-	if(is_admin(username))
-	#code to add new user
-	print("user added successfully")
-	else:
-	print("Unauthorized Access")
+	try: 
+		subrocess.run(['useradd', username])
+		print (f"User {username} added successfully.")
+	except subrocess.calledProcessError as e:
+		print(f"Error adding user: {e}")
 
-parser = argparse.ArgumentParser(description="Admin Script")
-parser.add_argument("command", help="The command to execute")
-parser.add_argument("username", help="The username of the admin")
-args = parser.parse_args()
+def delete_user(username)
+	try: 
+		subrocess.run(['userdel', username])
+		print (f"User {username} deleted successfully.")
+	except subrocess.calledProcessError as e:
+		print(f"Error deleting user: {e}")
 
-if is_admin(args.username):
-    if args.command == "add_user":
-        add_user("newuser")  # Replace with actual user creation logic
-    # ... other commands
-else:
-    print("Unauthorized access.")
+def modify_user(username)
+	#modification logic
+	print(f"Modifying user {username} not implemented yet.")
 
-
+if _name_ == '_main_':
+	main()
